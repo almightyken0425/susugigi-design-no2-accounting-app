@@ -553,7 +553,7 @@ const SCREEN_GROUPS = [
   {
     id: 'login',
     title: 'Login · 登入',
-    subtitle: '全螢幕登入頁。Branding + Google SSO 按鈕 + disclaimer + footer（src/screens/Auth/LoginScreen.tsx）。',
+    subtitle: '全螢幕登入頁。Branding + Google / Apple 雙門圓鈕 + disclaimer + footer（src/screens/Auth/LoginScreen.tsx）。',
     screens: [
       { id: 'login', label: 'Default · 登入入口' },
     ],
