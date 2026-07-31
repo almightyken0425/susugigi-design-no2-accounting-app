@@ -2,7 +2,7 @@
 // LoginScreen sub-sections · 私有 sub-section 元件
 //
 // 鏡射 impl src/screens/Auth/LoginScreen.tsx：
-//   LoginBranding / LoginGoogleButton / LoginFooter
+//   LoginBranding / LoginProviderButtons / LoginFooter
 // ─────────────────────────────────────────────────────────────
 
 // ─── LoginBranding ─── 品牌標誌 $wish（flex 2 區域置中）
@@ -24,28 +24,32 @@ function LoginBranding() {
   );
 }
 
-// ─── LoginGoogleButton ─── primary 色圓形登入鈕（僅白圓 'G' icon，無文字）
-function LoginGoogleButton({ loading }) {
+// ─── LoginProviderButtons ─── 雙門圓形登入鈕並排（Google / Apple，僅 icon 無文字）
+// 一門一帳號：兩鈕各自成帳。等徑 BUTTON_DIAMETER、間距 BUTTON_GAP。
+// 兩鈕同 primary 圓底：Google 白圓角方塊 'G'、Apple 白 logo，成對稱雙門。
+// loading 態（對齊 impl）：被點按鈕內 spinner，兩鈕皆降透明度 disabled。
+function LoginProviderButtons({ loading, loadingProvider = 'google' }) {
   const T = LOGIN_SCREEN_TOKENS;
+  const circle = {
+    display: 'flex',
+    alignItems: 'center', justifyContent: 'center',
+    background: TOKENS.p500,
+    width: T.BUTTON_DIAMETER, height: T.BUTTON_DIAMETER,
+    borderRadius: '50%',
+    boxShadow: `0px ${SHADOW_ELEVATION.level1.offsetY}px ${SHADOW_ELEVATION.level1.blur}px rgba(0,0,0,${SHADOW_ELEVATION.level1.opacity})`,
+    opacity: loading ? 0.6 : 1,
+  };
   return (
     <div style={{
       flex: 1,
-      display: 'flex', flexDirection: 'column',
+      display: 'flex', flexDirection: 'row',
       justifyContent: 'center', alignItems: 'center',
+      gap: T.BUTTON_GAP,
       paddingLeft: T.LOGIN_CONTAINER_PADDING_H,
       paddingRight: T.LOGIN_CONTAINER_PADDING_H,
     }}>
-      <div style={{
-        display: 'flex',
-        alignItems: 'center', justifyContent: 'center',
-        background: TOKENS.p500,
-        width: T.BUTTON_DIAMETER, height: T.BUTTON_DIAMETER,
-        borderRadius: '50%',
-        boxShadow: `0px ${SHADOW_ELEVATION.level1.offsetY}px ${SHADOW_ELEVATION.level1.blur}px rgba(0,0,0,${SHADOW_ELEVATION.level1.opacity})`,
-        opacity: loading ? 0.6 : 1,
-      }}>
-        {loading ? (
-          // loading 態（對齊 impl）：圓鈕內以 spinner 取代白圓 G icon，按鈕降透明度 disabled
+      <div style={circle}>
+        {loading && loadingProvider === 'google' ? (
           <Spinner size={ICON_SIZE.md} color={TOKENS.surface}/>
         ) : (
           <div style={{
@@ -60,6 +64,13 @@ function LoginGoogleButton({ loading }) {
               color: TOKENS.p500,
             }}>G</span>
           </div>
+        )}
+      </div>
+      <div style={circle}>
+        {loading && loadingProvider === 'apple' ? (
+          <Spinner size={ICON_SIZE.md} color={TOKENS.surface}/>
+        ) : (
+          <Glyph name="apple" size={T.BUTTON_ICON_SIZE} color={TOKENS.surface}/>
         )}
       </div>
     </div>
@@ -100,4 +111,4 @@ function LoginFooter() {
   );
 }
 
-Object.assign(window, { LoginBranding, LoginGoogleButton, LoginFooter });
+Object.assign(window, { LoginBranding, LoginProviderButtons, LoginFooter });
