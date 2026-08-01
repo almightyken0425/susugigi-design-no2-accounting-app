@@ -6,7 +6,10 @@
 //   2. 基礎幣別 + 幣別設定 + 匯率管理
 //   3. 語言 + 時區 + 週起始日（value + chevron）
 //   4. 允許資料分析（switch）
-//   5. 登出（destructive，紅色文字）
+//   5. 登出 + 刪除帳號（destructive，紅色文字）
+//      刪除帳號確認流走 iOS 原生 Alert 兩段（說明段 + 最終確認段、
+//      訂閱中多一顆「管理訂閱」鈕），比照登出確認：原生系統元件、
+//      視覺不由 canvas 承載。
 //
 // 主題切換為內部功能，不在此使用者偏好流程，故不列主題入口。
 //
@@ -53,6 +56,7 @@ function PreferenceScreen() {
       <ListSection>
         <ListGroupCard>
           <ListItem title="登出" titleColor={TOKENS.error}/>
+          <ListItem title="刪除帳號" titleColor={TOKENS.error}/>
         </ListGroupCard>
       </ListSection>
     </div>
