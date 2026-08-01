@@ -26,7 +26,7 @@
 ├── no13_theme_settings_screen/         ThemeSettingsScreen（2 欄 SelectionGrid + 三色預覽）
 ├── no14_base_currency_setting_screen/  BaseCurrencySettingScreen（SelectionList + 搜尋）
 ├── no15_launch_mode_setting_screen/    LaunchModeSettingScreen（4 選 1 SelectionList）
-├── no16_preference_screen/             PreferenceScreen（4 section hub）
+├── no16_preference_screen/             PreferenceScreen（5 section hub）
 ├── no17_data_management_screen/        DataManagementScreen（匯入/匯出/重設）
 ├── no18_account_editor_screen/         AccountEditorScreen（new/edit；幣別/類型/圖示 picker）
 ├── no19_category_editor_screen/        CategoryEditorScreen（new-expense/new-income/edit；映射 + 圖示 picker）
