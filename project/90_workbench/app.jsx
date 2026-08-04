@@ -298,10 +298,14 @@ const SCREEN_META = {
     title: '預覽匯入', present: 'none',
     render: () => <ImportScreen variant="step-4"/>,
   },
-  // ─── Login ─── default
-  'login': {
-    title: '登入', present: 'none',
-    render: () => <LoginScreen/>,
+  // ─── Offline Retry ─── default / deletion
+  'offline-retry': {
+    title: '離線重試', present: 'none',
+    render: () => <OfflineRetryScreen/>,
+  },
+  'offline-retry-deletion': {
+    title: '離線重試', present: 'none',
+    render: () => <OfflineRetryScreen variant="deletion"/>,
   },
   // ─── Paywall ─── default (yearly) / monthly
   'paywall': {
@@ -489,7 +493,7 @@ const SCREEN_GROUPS = [
   {
     id: 'preference',
     title: 'Preference · 偏好設定',
-    subtitle: 'section hub（啟動 · 幣別 · 語言/時區/週起始日 · 資料分析 · 登出）。每 row value + chevron 鏡射 impl context 值（src/screens/Settings/PreferenceScreen.tsx）。主題切換為內部功能，不在此偏好流程。',
+    subtitle: 'section hub（啟動 · 幣別 · 語言/時區/週起始日 · 資料分析）。每 row value + chevron 鏡射 impl context 值（src/screens/Settings/PreferenceScreen.tsx）。主題切換為內部功能，不在此偏好流程。',
     screens: [
       { id: 'preference', label: 'Default · 偏好設定主頁' },
     ],
@@ -497,7 +501,7 @@ const SCREEN_GROUPS = [
   {
     id: 'data-management',
     title: 'Data Management · 資料管理',
-    subtitle: '3 section（匯入 · 匯出 · 重設資料庫）。重設為 destructive 紅色（src/screens/Settings/DataManagementScreen.tsx）。',
+    subtitle: '3 section（匯入 · 匯出 · 清除所有資料）。清除為 destructive 紅色、確認流走 iOS 原生 Alert（src/screens/Settings/DataManagementScreen.tsx）。',
     screens: [
       { id: 'data-management', label: 'Default · 資料管理主頁' },
     ],
@@ -551,11 +555,12 @@ const SCREEN_GROUPS = [
     ],
   },
   {
-    id: 'login',
-    title: 'Login · 登入',
-    subtitle: '全螢幕登入頁。Branding + Google / Apple 雙門圓鈕 + disclaimer + footer（src/screens/Auth/LoginScreen.tsx）。',
+    id: 'offline-retry',
+    title: 'Offline Retry · 離線重試',
+    subtitle: '全螢幕攔路頁。首開離線或資料清除收尾未完時顯示，Branding + 說明文案 + 重試鈕（src/screens/Bootstrap/OfflineRetryScreen.tsx）。',
     screens: [
-      { id: 'login', label: 'Default · 登入入口' },
+      { id: 'offline-retry',          label: 'Default · 首開離線' },
+      { id: 'offline-retry-deletion', label: 'Deletion · 清除收尾未完' },
     ],
   },
   {
