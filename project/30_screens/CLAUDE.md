@@ -26,17 +26,17 @@
 ├── no13_theme_settings_screen/         ThemeSettingsScreen（2 欄 SelectionGrid + 三色預覽）
 ├── no14_base_currency_setting_screen/  BaseCurrencySettingScreen（SelectionList + 搜尋）
 ├── no15_launch_mode_setting_screen/    LaunchModeSettingScreen（4 選 1 SelectionList）
-├── no16_preference_screen/             PreferenceScreen（5 section hub）
-├── no17_data_management_screen/        DataManagementScreen（匯入/匯出/重設）
+├── no16_preference_screen/             PreferenceScreen（4 section hub）
+├── no17_data_management_screen/        DataManagementScreen（匯入/匯出/清除所有資料）
 ├── no18_account_editor_screen/         AccountEditorScreen（new/edit；幣別/類型/圖示 picker）
 ├── no19_category_editor_screen/        CategoryEditorScreen（new-expense/new-income/edit；映射 + 圖示 picker）
 ├── no20_currency_detail_config_screen/ CurrencyDetailConfigScreen（千位省略 + 小數位數）
 ├── no21_currency_rate_editor_screen/   CurrencyRateEditorScreen（add/update；雙金額 = 公式）
 ├── no22_import_screen/                 ImportScreen（5 step wizard）
-├── no23_login_screen/                  LoginScreen（Branding + Google SSO）
 ├── no24_paywall_screen/                PaywallScreen（年費/月費 plan 選擇）
 ├── no25_merge_editor_screen/           MergeEditorScreen（account/category；source→target 視覺化）
-└── no26_week_start_setting_screen/     WeekStartSettingScreen（跟隨語系/週日/週一 3 選 1）
+├── no26_week_start_setting_screen/     WeekStartSettingScreen（跟隨語系/週日/週一 3 選 1）
+└── no27_offline_retry_screen/          OfflineRetryScreen（首開離線/清除收尾攔路；default/deletion）
 ```
 
 每個 `noN_<name>_screen/` 子目錄內含三件套：`tokens.jsx` + `noN_subsections.jsx` + entry `noN_<name>_screen.jsx`。HomeScreen 額外含 `noN_period_page.jsx`。
@@ -130,4 +130,4 @@ Variant 不憑空設計，照 impl 該 screen 的實際 state 與 navigation par
 尚待後續處理：
 
 - AccountSelector / CategorySelector 尚未建立專屬 `component_tokens/noN_*_tokens.jsx`
-- 部分 screen 的進階 variant 待補：CurrencyRateEditor 的 cross-currency（from ≠ base 的 To 鎖定來源 visualization）、Login loading state
+- 部分 screen 的進階 variant 待補：CurrencyRateEditor 的 cross-currency（from ≠ base 的 To 鎖定來源 visualization）、OfflineRetry loading state

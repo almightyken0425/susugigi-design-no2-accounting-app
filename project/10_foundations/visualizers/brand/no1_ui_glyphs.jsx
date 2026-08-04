@@ -46,7 +46,6 @@ function UIGlyphWallCard() {
     { name: 'cog-outline',                lib: 'MCI' },
     { name: 'database-cog-outline',       lib: 'MCI' },
     { name: 'database-plus-outline',      lib: 'MCI' },
-    { name: 'database-refresh-outline',   lib: 'MCI' },
     { name: 'database-remove-outline',    lib: 'MCI' },
     { name: 'download',                   lib: 'MCI' },
     { name: 'file-document-outline',      lib: 'MCI' },
@@ -60,10 +59,11 @@ function UIGlyphWallCard() {
     { name: 'star-outline',               lib: 'MCI' },
     { name: 'swap-horizontal',            lib: 'MCI' },
     { name: 'tag-outline',                lib: 'MCI' },
+    { name: 'trash-can-outline',          lib: 'MCI' },
   ];
   return (
     <FoundCard>
-      <FoundLabel>UI Glyphs · impl 白名單（SF 7 / FA 9 / MCI 31 = 47）</FoundLabel>
+      <FoundLabel>UI Glyphs · impl 白名單（SF / FA / MCI，清單以 impl uiGlyphs.ts 為準）</FoundLabel>
       <div style={{ fontSize: 11, color: TOKENS.ink3, marginBottom: 12 }}>
         仲裁端：impl <code>src/constants/uiGlyphs.ts</code>（UI_MCI、UI_FA）。
         Glyph 渲染為 design canvas best-effort 替身，真實視覺以 impl runtime 為準。

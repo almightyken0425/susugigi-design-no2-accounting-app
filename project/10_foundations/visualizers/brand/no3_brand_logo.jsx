@@ -4,7 +4,7 @@
 // 與 app icon（no2_app_icon.jsx 的 APP_ICON_G4）同一套幾何、拿掉底圖，
 // 只剩三條微弧與條內漸層，透明底。用在 app 內品牌出現點：
 //   1. Launch screen（iOS storyboard imageView、LaunchLogo imageset）
-//   2. 登入頁品牌區（LoginScreen、104×96pt）
+//   2. 離線重試頁品牌區（OfflineRetryScreen、104×96pt）
 // Home header 維持 $wish 文字標題（2026-07-07 使用者定案；曾試 logo、
 // 視覺不合退回。另 iOS 26 + Fabric 自訂 headerTitle 元件有上游 bug）。
 // 保持文字的地方：icon 下方 app 名、版權行、匯出檔名（見 BRAND.md App icon 節）。
