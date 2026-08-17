@@ -12,6 +12,7 @@
 //   - present         'push' | 'modal' | 'none'  → 對應 impl 的 navigation presentation
 //   - headerLeftText  push 模式回上頁的文字（例如 '設定'）
 //   - headerRight     header 右側元素（merge / search / settings 等）
+//   - onClose/onSave  modal 的取消與完成行為
 //   - hasFAB          是否顯示 FloatingActionBar
 //   - render          (ctx) => screen body JSX，ctx 提供 push / pop / sharedFilter 等
 //
@@ -50,12 +51,16 @@ const SCREEN_META = {
   },
   // ─── Filter ─── default / no-accounts
   filter: {
-    title: '顯示設定', present: 'modal',
-    render: (ctx) => <HomeFilterScreen filterState={ctx.sharedFilter} setFilterState={ctx.setSharedFilter}/>,
+    title: '顯示設定', present: 'modal', save: true,
+    render: (ctx) => <HomeFilterScreen draftFilterState={ctx.filterDraft} setDraftFilterState={ctx.setFilterDraft}/>,
+    onClose: (ctx) => ctx.discardFilterDraft(),
+    onSave: (ctx) => ctx.applyFilterDraft(),
   },
   'filter-no-accounts': {
-    title: '顯示設定', present: 'modal',
-    render: (ctx) => <HomeFilterScreen filterState={ctx.sharedFilter} setFilterState={ctx.setSharedFilter} variant="no-accounts"/>,
+    title: '顯示設定', present: 'modal', save: true,
+    render: (ctx) => <HomeFilterScreen draftFilterState={ctx.filterDraft} setDraftFilterState={ctx.setFilterDraft} variant="no-accounts"/>,
+    onClose: (ctx) => ctx.discardFilterDraft(),
+    onSave: (ctx) => ctx.applyFilterDraft(),
   },
   // ─── Search ─── initial / with-results / no-results
   // impl loading 走 ListEmptyTransition crossfade 不顯示 spinner，design 不另畫 loading variant
@@ -589,19 +594,51 @@ const PINNED_WITH_FAB = new Set(['home']);
 // ScreenFrame — device 內導覽容器
 function ScreenFrame({ pinned, sharedFilter, setSharedFilter }) {
   const [stack, setStack] = React.useState([pinned]);
+  const cloneFilter = (source) => ({
+    ...source,
+    selectedAccountIds: [...source.selectedAccountIds],
+  });
+  const [filterDraft, setFilterDraft] = React.useState(() => cloneFilter(sharedFilter));
   React.useEffect(() => { setStack([pinned]); }, [pinned]);
+  React.useEffect(() => {
+    setFilterDraft(cloneFilter(sharedFilter));
+  }, [pinned, sharedFilter]);
   const top = stack[stack.length - 1];
-  const push = (s) => setStack(st => [...st, s]);
   const pop = () => setStack(st => st.length > 1 ? st.slice(0, -1) : [pinned]);
+  const push = (s) => {
+    if (s === 'filter') setFilterDraft(cloneFilter(sharedFilter));
+    setStack(st => [...st, s]);
+  };
+  const discardFilterDraft = () => {
+    setFilterDraft(cloneFilter(sharedFilter));
+    pop();
+  };
+  const applyFilterDraft = () => {
+    setSharedFilter(cloneFilter(filterDraft));
+    pop();
+  };
   const meta = SCREEN_META[top];
   if (!meta) return null;
 
-  const ctx = { push, pop, sharedFilter, setSharedFilter };
+  const ctx = {
+    push,
+    pop,
+    sharedFilter,
+    setSharedFilter,
+    filterDraft,
+    setFilterDraft,
+    discardFilterDraft,
+    applyFilterDraft,
+  };
   const body = meta.render(ctx);
   const isModal = meta.present === 'modal';
   const isPush = meta.present === 'push';
   const headerRight = meta.headerRight ? meta.headerRight(ctx) : null;
   const leadingText = isPush ? (meta.headerLeftText ?? '') : undefined;
+  const modalClose = meta.onClose ? () => meta.onClose(ctx) : pop;
+  const modalSave = meta.save
+    ? () => meta.onSave ? meta.onSave(ctx) : pop()
+    : undefined;
 
   // ScreenFrame 結構：
   //   ScreenFrame (relative, h:100%, overflow:hidden)
@@ -623,7 +660,10 @@ function ScreenFrame({ pinned, sharedFilter, setSharedFilter }) {
         position: 'absolute', inset: 0,
         display: 'flex', flexDirection: 'column',
       }}>
-        {isModal && <ModalHeader title={meta.title} onClose={pop} onSave={meta.save ? pop : undefined}/>}
+        {isModal && <ModalHeader
+          title={meta.title}
+          onClose={modalClose}
+          onSave={modalSave}/>}
         {isPush && <PushHeader title={meta.title} leadingText={leadingText} leadingAction={stack.length > 1 ? pop : undefined} trailing={headerRight}/>}
         <div style={{ flex: 1, position: 'relative', overflowY: 'auto', overflowX: 'hidden' }}>
           {body}
