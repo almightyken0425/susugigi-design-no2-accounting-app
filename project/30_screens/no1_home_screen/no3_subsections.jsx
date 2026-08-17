@@ -152,7 +152,9 @@ function TxSectionHeader({ collapsed, onClick, iconId, title, total }) {
   );
 }
 
-// ─── TxSectionCard ─── 一個 collapsible section（header + rows）
+// ─── TxSectionCard ─── 一個 collapsible section（summary header + paged rows）
+// section header 是先行摘要。收合時不建立任何 row。
+// 展開時 section.data 代表目前已載入的明細頁。不是完整歷史資料全集。
 // mode='category'：row 左 slot 顯示日期；secondary 隱藏
 // mode='date'：row 左 slot 顯示 category icon；secondary 顯示帳戶名稱
 function TxSectionCard({ section, collapsed, onToggle, mode }) {

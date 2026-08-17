@@ -2,6 +2,8 @@
 // HomeFilterScreen · 對齊 impl src/screens/Home/HomeFilterScreen.tsx
 //
 // Modal screen。Tile row 切換時間粒度 / 分組方式，下方為跨幣別帳戶多選。
+// draftFilterState 是進入畫面時複製的草稿。畫面內操作只改草稿。
+// Header 的 X 丟棄草稿。Header 的 checkmark 才一次套用到 Home。
 // 帳戶不分群，全部依 ACCOUNTS 順序連續排成 2 欄 grid（flex-wrap），尾端落單卡靠左。
 // 最後一張被選中時 disable 該 card，避免清空選擇集合。
 //
@@ -10,12 +12,12 @@
 //   no-accounts  — 無可用帳戶，account 區塊空白
 // ─────────────────────────────────────────────────────────────
 
-function HomeFilterScreen({ filterState, setFilterState, variant = 'default' }) {
+function HomeFilterScreen({ draftFilterState, setDraftFilterState, variant = 'default' }) {
   const T = HOME_FILTER_SCREEN_TOKENS;
-  const { selectedAccountIds } = filterState;
+  const { selectedAccountIds } = draftFilterState;
   const noAccounts = variant === 'no-accounts';
 
-  const toggleAcc = (id) => setFilterState(s => {
+  const toggleAcc = (id) => setDraftFilterState(s => {
     const has = s.selectedAccountIds.includes(id);
     if (has && s.selectedAccountIds.length === 1) return s;
     return {
@@ -36,7 +38,7 @@ function HomeFilterScreen({ filterState, setFilterState, variant = 'default' }) 
       background: TOKENS.bg,
       minHeight: '100%',
     }}>
-      <FilterTileRow filterState={filterState} setFilterState={setFilterState}/>
+      <FilterTileRow filterState={draftFilterState} setFilterState={setDraftFilterState}/>
 
       <AccountGrid
         accounts={accounts}

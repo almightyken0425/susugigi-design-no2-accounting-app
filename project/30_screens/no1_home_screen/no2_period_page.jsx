@@ -6,6 +6,9 @@
 //
 // 內含：PeriodSwitcher → DonutHero → FocusRow → TxSectionList
 // 接收 filterState（用於 groupMode）+ variant + monthLabel。
+// 載入順序固定為摘要先行。section header 與圖表先由摘要資料呈現。
+// 分組明細只在展開後按頁取得。切換收支只改 chartMode 的呈現焦點。
+// 同一份已載摘要會重用。切換收支不重新讀取另一份完整交易資料。
 //
 // Variants：
 //   default — 顯示 TX 資料
