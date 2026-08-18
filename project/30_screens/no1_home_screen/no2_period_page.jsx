@@ -7,8 +7,8 @@
 // 內含：PeriodSwitcher → DonutHero → FocusRow → TxSectionList
 // 接收 filterState（用於 groupMode）+ variant + monthLabel。
 // 載入順序固定為摘要先行。section header 與圖表先由摘要資料呈現。
-// 分組明細只在展開後按頁取得。切換收支只改 chartMode 的呈現焦點。
-// 同一份已載摘要會重用。切換收支不重新讀取另一份完整交易資料。
+// 分組明細只在展開後按頁取得。切換收支時，焦點卡選取與逐筆清單換面
+// 在同次互動完成。同一份已載摘要會重用，不重新讀取摘要或分組明細。
 //
 // Variants：
 //   default — 顯示 TX 資料
@@ -29,9 +29,22 @@ function PeriodPage({ filterState, variant = 'default', monthLabel = '2026年5�
   const totals = periodTotals(dataSource);
   const expensePie = expensePieData(dataSource);
   const incomePie = incomePieData(dataSource);
-  const sections = groupMode === 'date'
-    ? groupByDate(dataSource)
-    : groupByCategory(dataSource, chartMode);
+  const sectionsFor = (mode) => {
+    const focusedData = dataSource.filter(t => (
+      isTransfer(t) || (mode === 'expense' ? baseAmount(t) < 0 : baseAmount(t) > 0)
+    ));
+    return groupMode === 'date'
+      ? groupByDate(focusedData)
+      : groupByCategory(dataSource, mode);
+  };
+  const sections = sectionsFor(chartMode);
+
+  const selectFocus = (nextMode) => {
+    if (nextMode === chartMode) return;
+    const nextSections = sectionsFor(nextMode);
+    setChartMode(nextMode);
+    setCollapsed(new Set(nextSections.map(section => section.id)));
+  };
 
   const toggle = (id) => setCollapsed(prev => {
     const next = new Set(prev);
@@ -50,7 +63,7 @@ function PeriodPage({ filterState, variant = 'default', monthLabel = '2026年5�
       }}>
         <PeriodSwitcher label={monthLabel}/>
         <DonutHero expenseData={expensePie} incomeData={incomePie} totals={totals} chartMode={chartMode}/>
-        <FocusRow totals={totals} chartMode={chartMode} onChartModeChange={setChartMode}/>
+        <FocusRow totals={totals} chartMode={chartMode} onChartModeChange={selectFocus}/>
       </div>
       <TxSectionList sections={sections} collapsed={collapsed} onToggle={toggle} mode={groupMode}/>
     </div>
