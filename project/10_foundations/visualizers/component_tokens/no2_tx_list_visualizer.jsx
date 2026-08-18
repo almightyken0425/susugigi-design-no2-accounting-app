@@ -28,8 +28,6 @@ const TX_LIST_TOKEN_DESC = {
   SECTION_ENTRY_STAGGER_MS:             'section 進場錯位間隔',
   SECTION_ENTRY_TRANSLATE_Y:            'section 進場初始位移',
   SECTION_ENTRY_STAGGER_MAX_INDEX:      '錯位上限索引',
-  SECTION_SHRINK_DURATION_MS:           'section 縮短動畫',
-  SECTION_GROW_DURATION_MS:             'section 展開動畫',
   FOCUS_CARD_SHRINK_DURATION_MS:        'focus card 縮短',
   FOCUS_CARD_GROW_DURATION_MS:          'focus card 展開',
 };
@@ -60,8 +58,6 @@ const TX_LIST_TOKEN_SOURCE = {
   SECTION_ENTRY_STAGGER_MS:             '(literal: stagger interval)',
   SECTION_ENTRY_TRANSLATE_Y:            '(literal: entry offset)',
   SECTION_ENTRY_STAGGER_MAX_INDEX:      '(literal: index cap)',
-  SECTION_SHRINK_DURATION_MS:           'MOTION.duration.fast',
-  SECTION_GROW_DURATION_MS:             '(literal: visual calibration)',
   FOCUS_CARD_SHRINK_DURATION_MS:        '(literal: visual calibration)',
   FOCUS_CARD_GROW_DURATION_MS:          '(literal: visual calibration)',
 };
@@ -73,7 +69,7 @@ function FoundationsCTTxListSection() {
       title="Component Tokens · Transaction List"
       subtitle="交易列為 grouped section 結構，與 LIST_TOKENS 視覺差異大分開仲裁。內含 MORPH / SECTION_ENTRY / FOCUS_CARD 動畫 token。"
     >
-      <DCFamily id="tx-list-tokens-family" title="Tokens" subtitle="TX_LIST_TOKENS 完整表格（含 section header / icon outline / animation 三組）。">
+      <DCFamily id="tx-list-tokens-family" title="Tokens" subtitle="TX_LIST_TOKENS 完整表格，涵蓋 section header、icon outline 與 animation。">
         <DCArtboard id="tx-list-tokens" label="TX_LIST_TOKENS · TxList row 專用" width="auto" height="auto">
           <TokenTableCard tokens={TX_LIST_TOKENS} title="TX_LIST_TOKENS" descriptions={TX_LIST_TOKEN_DESC} sources={TX_LIST_TOKEN_SOURCE}/>
         </DCArtboard>

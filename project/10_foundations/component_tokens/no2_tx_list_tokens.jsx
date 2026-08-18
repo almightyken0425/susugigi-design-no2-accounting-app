@@ -34,8 +34,6 @@ const TX_LIST_TOKENS = {
   SECTION_ENTRY_STAGGER_MS:             20,                            // (literal: stagger interval)
   SECTION_ENTRY_TRANSLATE_Y:            6,                             // (literal: entry offset，介於 SPACING.xs 與 sm 之間)
   SECTION_ENTRY_STAGGER_MAX_INDEX:      4,                             // (literal: index cap)
-  SECTION_SHRINK_DURATION_MS:           MOTION.duration.fast,          // 200ms
-  SECTION_GROW_DURATION_MS:             312,                           // (literal: visual calibration)
   FOCUS_CARD_SHRINK_DURATION_MS:        92,                            // (literal: visual calibration)
   FOCUS_CARD_GROW_DURATION_MS:          148,                           // (literal: visual calibration)
 };
