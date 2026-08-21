@@ -15,6 +15,31 @@ const _HOME_MONTH_TO_NUM = {
   Jul:'7', Aug:'8', Sep:'9', Oct:'10', Nov:'11', Dec:'12',
 };
 
+// TxSectionLoadingSkeleton 的呼吸只改透明度，不掃光帶、不旋轉。
+// 降低動態時停在高點，保留明細結構提示。
+if (typeof document !== 'undefined' && !document.getElementById('home-group-skeleton-style')) {
+  const T = HOME_SCREEN_TOKENS;
+  const s = document.createElement('style');
+  s.id = 'home-group-skeleton-style';
+  s.textContent = `
+    @keyframes home-group-skeleton-breathe {
+      from { opacity: ${T.SECTION_LOADING_OPACITY_LOW}; }
+      to { opacity: ${T.SECTION_LOADING_OPACITY_HIGH}; }
+    }
+    .home-group-skeleton-breathe {
+      opacity: ${T.SECTION_LOADING_OPACITY_LOW};
+      animation: home-group-skeleton-breathe ${T.SECTION_LOADING_BREATH_PHASE_MS}ms ${T.SECTION_LOADING_EASING} infinite alternate;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .home-group-skeleton-breathe {
+        animation: none;
+        opacity: ${T.SECTION_LOADING_OPACITY_HIGH};
+      }
+    }
+  `;
+  document.head.appendChild(s);
+}
+
 // ─── AmountCol ─── TxRow 右側金額欄
 // recurring chip + main amount + 換算金額（cross-currency 時）。
 function AmountCol({ recurring, amount, currency, convertedAmount }) {
@@ -152,12 +177,81 @@ function TxSectionHeader({ collapsed, onClick, iconId, title, total }) {
   );
 }
 
+// ─── TxSectionLoadingSkeleton ─── 初次或續頁等待時的呼吸骨架
+// 120ms 內保持隱藏。rowCount 由載入階段決定。
+function TxSectionLoadingSkeleton({
+  rowCount = HOME_SCREEN_TOKENS.SECTION_LOADING_INITIAL_ROW_COUNT,
+  showTopDivider = false,
+}) {
+  const T = HOME_SCREEN_TOKENS;
+  const [visible, setVisible] = React.useState(false);
+
+  React.useEffect(() => {
+    const timer = window.setTimeout(() => setVisible(true), T.SECTION_LOADING_DELAY_MS);
+    return () => window.clearTimeout(timer);
+  }, [T.SECTION_LOADING_DELAY_MS]);
+
+  return (
+    <div aria-hidden="true" style={{ visibility: visible ? 'visible' : 'hidden' }}>
+      {Array.from({ length: rowCount }, (_, index) => (
+        <div key={index} style={{
+          borderTop: index === 0 && !showTopDivider ? 'none' : `0.5px solid ${TOKENS.hairline}`,
+        }}>
+          <div className={visible ? 'home-group-skeleton-breathe' : undefined} style={{
+            opacity: visible ? undefined : T.SECTION_LOADING_OPACITY_LOW,
+            display: 'flex', alignItems: 'center',
+            gap: T.SECTION_LOADING_ROW_GAP,
+            paddingLeft: T.SECTION_LOADING_ROW_PADDING_H,
+            paddingRight: T.SECTION_LOADING_ROW_PADDING_H,
+            paddingTop: T.SECTION_LOADING_ROW_PADDING_V,
+            paddingBottom: T.SECTION_LOADING_ROW_PADDING_V,
+          }}>
+            <div style={{
+              width: T.SECTION_LOADING_LEFT_SLOT_SIZE,
+              height: T.SECTION_LOADING_LEFT_SLOT_SIZE,
+              borderRadius: T.SECTION_LOADING_BLOCK_RADIUS,
+              background: T.SECTION_LOADING_FILL,
+              flexShrink: 0,
+            }}/>
+            <div style={{
+              flex: 1, minWidth: 0,
+              display: 'flex', flexDirection: 'column',
+              gap: T.SECTION_LOADING_TEXT_GAP,
+            }}>
+              <div style={{
+                width: T.SECTION_LOADING_PRIMARY_WIDTHS[index],
+                height: T.SECTION_LOADING_PRIMARY_HEIGHT,
+                borderRadius: T.SECTION_LOADING_BLOCK_RADIUS,
+                background: T.SECTION_LOADING_FILL,
+              }}/>
+              <div style={{
+                width: T.SECTION_LOADING_SECONDARY_WIDTHS[index],
+                height: T.SECTION_LOADING_SECONDARY_HEIGHT,
+                borderRadius: T.SECTION_LOADING_BLOCK_RADIUS,
+                background: T.SECTION_LOADING_FILL,
+              }}/>
+            </div>
+            <div style={{
+              width: T.SECTION_LOADING_AMOUNT_WIDTHS[index],
+              height: T.SECTION_LOADING_AMOUNT_HEIGHT,
+              borderRadius: T.SECTION_LOADING_BLOCK_RADIUS,
+              background: T.SECTION_LOADING_FILL,
+              flexShrink: 0,
+            }}/>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 // ─── TxSectionCard ─── 一個 collapsible section（summary header + paged rows）
 // section header 是先行摘要。收合時不建立任何 row。
 // 展開時 section.data 代表目前已載入的明細頁。不是完整歷史資料全集。
 // mode='category'：row 左 slot 顯示日期；secondary 隱藏
 // mode='date'：row 左 slot 顯示 category icon；secondary 顯示帳戶名稱
-function TxSectionCard({ section, collapsed, onToggle, mode }) {
+function TxSectionCard({ section, collapsed, onToggle, mode, loadingMode = null }) {
+  const T = HOME_SCREEN_TOKENS;
   return (
     <div style={{
       marginLeft: TX_LIST_TOKENS.SECTION_CARD_HORIZONTAL_PADDING,
@@ -176,42 +270,56 @@ function TxSectionCard({ section, collapsed, onToggle, mode }) {
         iconId={mode === 'category' ? section.iconId : undefined}
         title={section.title}
         total={fmt(section.total)}/>
-      {!collapsed && section.data.map((tx, i) => {
-        const cat = CAT_BY_ID[tx.cat];
-        const leftSlot = mode === 'category'
-          ? <TxDateBadge date={tx.date}/>
+      {!collapsed && (
+        loadingMode === 'initial'
+          ? <TxSectionLoadingSkeleton rowCount={T.SECTION_LOADING_INITIAL_ROW_COUNT}/>
           : (
-            <div style={{
-              width: TX_LIST_TOKENS.ROW_LEFT_SLOT_SIZE, height: TX_LIST_TOKENS.ROW_LEFT_SLOT_SIZE,
-              display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-            }}>
-              {cat && <DynamicIconById iconId={cat.iconId} size={ICON_SIZE.sm} color={TOKENS.p500}/>}
-            </div>
-          );
-        const acc = ACC_BY_ID[tx.acc];
-        const primary = tx.note || '';
-        const secondary = mode === 'category' ? null : (acc ? acc.name : '');
-        return (
-          <div key={tx.id} style={{ borderTop: i === 0 ? 'none' : `0.5px solid ${TOKENS.hairline}` }}>
-            <TxRow
-              left={leftSlot}
-              primary={primary}
-              secondary={secondary}
-              right={<AmountCol recurring={tx.recurring} amount={tx.amount} currency={tx.currency} convertedAmount={tx.convertedAmount}/>}/>
-          </div>
-        );
-      })}
+            <>
+              {section.data.map((tx, i) => {
+                const cat = CAT_BY_ID[tx.cat];
+                const leftSlot = mode === 'category'
+                  ? <TxDateBadge date={tx.date}/>
+                  : (
+                    <div style={{
+                      width: TX_LIST_TOKENS.ROW_LEFT_SLOT_SIZE, height: TX_LIST_TOKENS.ROW_LEFT_SLOT_SIZE,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                    }}>
+                      {cat && <DynamicIconById iconId={cat.iconId} size={ICON_SIZE.sm} color={TOKENS.p500}/>}
+                    </div>
+                  );
+                const acc = ACC_BY_ID[tx.acc];
+                const primary = tx.note || '';
+                const secondary = mode === 'category' ? null : (acc ? acc.name : '');
+                return (
+                  <div key={tx.id} style={{ borderTop: i === 0 ? 'none' : `0.5px solid ${TOKENS.hairline}` }}>
+                    <TxRow
+                      left={leftSlot}
+                      primary={primary}
+                      secondary={secondary}
+                      right={<AmountCol recurring={tx.recurring} amount={tx.amount} currency={tx.currency} convertedAmount={tx.convertedAmount}/>}/>
+                  </div>
+                );
+              })}
+              {loadingMode === 'next-page' && (
+                <TxSectionLoadingSkeleton
+                  rowCount={T.SECTION_LOADING_NEXT_PAGE_ROW_COUNT}
+                  showTopDivider={section.data.length > 0}/>
+              )}
+            </>
+          )
+      )}
     </div>
   );
 }
 
 // ─── TxSectionList ─── sections array → TxSectionCard list
-function TxSectionList({ sections, collapsed, onToggle, mode }) {
+function TxSectionList({ sections, collapsed, onToggle, mode, loadingSectionId, loadingMode }) {
   return (
     <>
       {sections.map(sec => (
         <TxSectionCard key={sec.id} section={sec}
-          collapsed={collapsed.has(sec.id)} onToggle={onToggle} mode={mode}/>
+          collapsed={collapsed.has(sec.id)} onToggle={onToggle} mode={mode}
+          loadingMode={sec.id === loadingSectionId ? loadingMode : null}/>
       ))}
     </>
   );
@@ -352,6 +460,6 @@ function FocusRow({ totals, chartMode, onChartModeChange }) {
 
 Object.assign(window, {
   AmountCol, TxDateBadge, TxRow,
-  TxSectionHeader, TxSectionCard, TxSectionList,
+  TxSectionHeader, TxSectionLoadingSkeleton, TxSectionCard, TxSectionList,
   PeriodSwitcher, DonutHero, FocusRow,
 });

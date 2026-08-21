@@ -27,12 +27,24 @@ function PushHeader({ title, leadingText, leadingAction, trailing }) {
 // SCREEN_META — 全部 screen 的 meta 與 variant 入口；screen 清單以本常數與
 // SCREEN_GROUPS 為準，實體檔在 30_screens/ 各 noN_<name>_screen/ 子目錄。
 const SCREEN_META = {
-  // ─── Home ─── default / empty
+  // ─── Home ─── default / initial loading / next-page loading / empty
   // headerRight 兩 symbol 共用 shared background pill；
   // 對齊 impl 端 unstable_headerRightItems = [search, spacing:0, settings] 的 iOS 26 渲染結果。
   home: {
     title: '$wish', present: 'push', hasFAB: true,
     render: (ctx) => <HomeScreen filterState={ctx.sharedFilter}/>,
+    headerLeft: (ctx) => <HeaderButtonPill symbols={['line.3.horizontal.decrease']} intent="action" onPress={() => ctx.push('filter')}/>,
+    headerRight: (ctx) => <HeaderButtonPill symbols={['magnifyingglass', 'gearshape']} intent="action" onPress={() => ctx.push('search')}/>,
+  },
+  'home-group-loading': {
+    title: '$wish', present: 'push', hasFAB: true,
+    render: (ctx) => <HomeScreen filterState={ctx.sharedFilter} variant="group-loading"/>,
+    headerLeft: (ctx) => <HeaderButtonPill symbols={['line.3.horizontal.decrease']} intent="action" onPress={() => ctx.push('filter')}/>,
+    headerRight: (ctx) => <HeaderButtonPill symbols={['magnifyingglass', 'gearshape']} intent="action" onPress={() => ctx.push('search')}/>,
+  },
+  'home-group-next-page-loading': {
+    title: '$wish', present: 'push', hasFAB: true,
+    render: (ctx) => <HomeScreen filterState={ctx.sharedFilter} variant="group-next-page-loading"/>,
     headerLeft: (ctx) => <HeaderButtonPill symbols={['line.3.horizontal.decrease']} intent="action" onPress={() => ctx.push('filter')}/>,
     headerRight: (ctx) => <HeaderButtonPill symbols={['magnifyingglass', 'gearshape']} intent="action" onPress={() => ctx.push('search')}/>,
   },
@@ -346,11 +358,13 @@ const SCREEN_GROUPS = [
   {
     id: 'home',
     title: 'Home · 記帳',
-    subtitle: '主畫面 PeriodPage（src/screens/Home/）。預設 + 空狀態（無交易紀錄時 donut 中央改顯示「尚無交易紀錄」）。Undo Bar variant 示意刪除交易後全域復原列覆蓋於首頁底部。',
+    subtitle: '主畫面 PeriodPage（src/screens/Home/）。初次明細 loading 顯示三列骨架；續頁保留已載明細並在尾端追加一列。兩者延遲 120ms，500ms 單相，standard easing；降低動態時保持靜態。不使用 spinner 或 shimmer。',
     screens: [
-      { id: 'home',       label: 'Default · 有交易' },
-      { id: 'home-empty', label: 'Empty · 尚無交易紀錄' },
-      { id: 'home-undo',  label: 'Undo Bar · 刪除交易後復原列' },
+      { id: 'home',                         label: 'Default · 有交易' },
+      { id: 'home-group-loading',           label: 'Initial loading · 三列呼吸骨架' },
+      { id: 'home-group-next-page-loading', label: 'Next-page loading · 明細尾端一列骨架' },
+      { id: 'home-empty',                   label: 'Empty · 尚無交易紀錄' },
+      { id: 'home-undo',                    label: 'Undo Bar · 刪除交易後復原列' },
     ],
   },
   {
