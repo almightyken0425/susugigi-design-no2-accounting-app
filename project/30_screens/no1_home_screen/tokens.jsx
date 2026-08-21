@@ -39,6 +39,28 @@ const HOME_SCREEN_TOKENS = {
   SECTION_HEADER_CATEGORY_ICON_FRAME:    TX_LIST_TOKENS.ICON_OUTLINE_SIZE,      // 32（impl 共用 TX_LIST_TOKENS.ICON_OUTLINE_SIZE）
   SECTION_HEADER_CATEGORY_ICON_SIZE:     18,                                    // (literal: 18 比 ICON_SIZE.sm=20 略小，section header 視覺校準)
 
+  // ── TxSectionLoadingSkeleton（首次與續頁的明細骨架）
+  SECTION_LOADING_DELAY_MS:              120,                                   // (literal: 快速讀取不顯示骨架的等待門檻)
+  SECTION_LOADING_INITIAL_ROW_COUNT:     3,                                     // (literal: 初次載入足以表達明細結構，且不暗示實際頁量)
+  SECTION_LOADING_NEXT_PAGE_ROW_COUNT:   1,                                     // (literal: 續頁只在已載明細尾端追加一列提示)
+  SECTION_LOADING_BREATH_PHASE_MS:       MOTION.duration.slow,                  // 500ms 單相，往返週期為 1000ms
+  SECTION_LOADING_EASING:                MOTION.easing.standard,
+  SECTION_LOADING_OPACITY_LOW:           0.45,                                  // (literal: 呼吸低點，仍保持骨架可辨識)
+  SECTION_LOADING_OPACITY_HIGH:          1,                                     // (literal: 呼吸高點；降低動態時固定使用此值)
+  SECTION_LOADING_FILL:                  TOKENS.surface2,
+  SECTION_LOADING_BLOCK_RADIUS:          RADIUS.full,
+  SECTION_LOADING_LEFT_SLOT_SIZE:        TX_LIST_TOKENS.ROW_LEFT_SLOT_SIZE,
+  SECTION_LOADING_PRIMARY_HEIGHT:        SPACING.sm + SPACING['2xs'],           // 10
+  SECTION_LOADING_SECONDARY_HEIGHT:      SPACING.sm,
+  SECTION_LOADING_AMOUNT_HEIGHT:         SPACING.sm + SPACING['2xs'],           // 10
+  SECTION_LOADING_TEXT_GAP:              SPACING.sm,
+  SECTION_LOADING_ROW_GAP:               SPACING.md,
+  SECTION_LOADING_ROW_PADDING_H:         SPACING.lg,
+  SECTION_LOADING_ROW_PADDING_V:         SPACING.md,
+  SECTION_LOADING_PRIMARY_WIDTHS:        ['52%', '64%', '44%'],                 // (literal: 三列錯落，避免誤認為可讀文字)
+  SECTION_LOADING_SECONDARY_WIDTHS:      ['34%', '46%', '28%'],                 // (literal: 對應副標長短差異)
+  SECTION_LOADING_AMOUNT_WIDTHS:         ['18%', '24%', '20%'],                 // (literal: 對應金額位數差異)
+
   // ── AmountCol（TxRow 右側金額欄，含 recurring chip）
   AMOUNT_COL_GAP:                        SPACING.lg,
   AMOUNT_COL_RECURRING_FRAME:            22,                                    // (literal: recurring chip 22x22，比 ICON_SIZE.xs=16 大、比 sm=20 略大)

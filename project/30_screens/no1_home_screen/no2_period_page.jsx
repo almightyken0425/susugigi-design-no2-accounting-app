@@ -11,20 +11,21 @@
 // 在同次互動完成。同一份已載摘要會重用，不重新讀取摘要或分組明細。
 //
 // Variants：
-//   default — 顯示 TX 資料
-//   empty   — 無交易紀錄；impl 端對 empty 不換 UI，donut 中央仍是「餘額 / $0」、
-//             FocusCard 仍是「$0」，TxSectionList 為空（無任何 section card）
+//   default                 — 顯示 TX 資料
+//   group-loading           — 展開分組等待第一頁明細，顯示三列呼吸骨架
+//   group-next-page-loading — 已載明細尾端等待續頁，追加一列呼吸骨架
+//   empty                   — 無交易紀錄；impl 端對 empty 不換 UI，donut 中央仍是「餘額 / $0」、
+//                             FocusCard 仍是「$0」，TxSectionList 為空（無任何 section card）
 // ─────────────────────────────────────────────────────────────
 
 function PeriodPage({ filterState, variant = 'default', monthLabel = '2026年5月', offset = 0 }) {
   const [chartMode, setChartMode] = React.useState('expense');
   const groupMode = filterState.groupBy;
-  // collapsed 初始為空 Set，canvas 上所有分組全展開——僅為展示分組內列結構，
-  // 非預設行為定案。實際預設依 spec no2_home_screen「各分組預設為收合狀態」，
-  // impl PeriodDataStore 種 isCollapsed: true。
-  const [collapsed, setCollapsed] = React.useState(() => new Set());
-
   const isEmpty = variant === 'empty';
+  const loadingMode = variant === 'group-loading'
+    ? 'initial'
+    : (variant === 'group-next-page-loading' ? 'next-page' : null);
+  const isGroupLoading = loadingMode !== null;
   const dataSource = isEmpty ? [] : TX;
   const totals = periodTotals(dataSource);
   const expensePie = expensePieData(dataSource);
@@ -38,12 +39,33 @@ function PeriodPage({ filterState, variant = 'default', monthLabel = '2026年5�
       : groupByCategory(dataSource, mode);
   };
   const sections = sectionsFor(chartMode);
+  const resolveLoadingSectionId = (candidateSections) => {
+    if (!loadingMode) return undefined;
+    if (loadingMode === 'initial') return candidateSections[0]?.id;
+    const shortestSection = candidateSections.reduce((shortest, section) => (
+      !shortest || section.data.length < shortest.data.length ? section : shortest
+    ), null);
+    return shortestSection?.id;
+  };
+  const loadingSectionId = resolveLoadingSectionId(sections);
+
+  // 一般 variant 全展開以展示列結構。loading variant 只展開示意組。
+  // 續頁挑目前最短分組，讓已載明細後的一列骨架能直接看見。
+  // 實際預設仍依 spec 收合，impl PeriodDataStore 種 isCollapsed: true。
+  const [collapsed, setCollapsed] = React.useState(() => (
+    isGroupLoading
+      ? new Set(sections.filter(section => section.id !== loadingSectionId).map(section => section.id))
+      : new Set()
+  ));
 
   const selectFocus = (nextMode) => {
     if (nextMode === chartMode) return;
     const nextSections = sectionsFor(nextMode);
+    const nextLoadingSectionId = resolveLoadingSectionId(nextSections);
     setChartMode(nextMode);
-    setCollapsed(new Set(nextSections.map(section => section.id)));
+    setCollapsed(new Set(nextSections
+      .filter(section => !isGroupLoading || section.id !== nextLoadingSectionId)
+      .map(section => section.id)));
   };
 
   const toggle = (id) => setCollapsed(prev => {
@@ -65,7 +87,13 @@ function PeriodPage({ filterState, variant = 'default', monthLabel = '2026年5�
         <DonutHero expenseData={expensePie} incomeData={incomePie} totals={totals} chartMode={chartMode}/>
         <FocusRow totals={totals} chartMode={chartMode} onChartModeChange={selectFocus}/>
       </div>
-      <TxSectionList sections={sections} collapsed={collapsed} onToggle={toggle} mode={groupMode}/>
+      <TxSectionList
+        sections={sections}
+        collapsed={collapsed}
+        onToggle={toggle}
+        mode={groupMode}
+        loadingSectionId={loadingSectionId}
+        loadingMode={loadingMode}/>
     </div>
   );
 }
