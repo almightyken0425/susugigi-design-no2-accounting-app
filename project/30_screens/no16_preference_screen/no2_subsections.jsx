@@ -11,6 +11,7 @@ const PREFERENCE_PREVIEW_VALUES = {
   timeZone:     'Taipei',
   weekStart:    '跟隨語系',
   analyticsConsent: true,
+  usageAnalyticsConsent: false,
 };
 
 Object.assign(window, { PREFERENCE_PREVIEW_VALUES });
