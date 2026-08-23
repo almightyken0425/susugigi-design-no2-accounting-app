@@ -5,7 +5,7 @@
 //   1. 啟動模式（value + chevron）
 //   2. 基礎幣別 + 幣別設定 + 匯率管理
 //   3. 語言 + 時區 + 週起始日（value + chevron）
-//   4. 允許資料分析（switch）
+//   4. 財務分析 + 使用情況（switch）
 //
 // app 無帳號 UI：無登出、無刪除帳號；資料清除入口在 DataManagementScreen。
 // 主題切換為內部功能，不在此使用者偏好流程，故不列主題入口。
@@ -46,7 +46,14 @@ function PreferenceScreen() {
 
       <ListSection>
         <ListGroupCard>
-          <ListItem title="允許資料分析" trailing={<Switch value={v.analyticsConsent}/>}/>
+          <ListItem
+            title="允許財務分析"
+            subtitle="控制財務內容分析"
+            trailing={<Switch value={v.analyticsConsent}/>}/>
+          <ListItem
+            title="分享使用情況"
+            subtitle="只含功能操作，不含記帳內容"
+            trailing={<Switch value={v.usageAnalyticsConsent}/>}/>
         </ListGroupCard>
       </ListSection>
     </div>
