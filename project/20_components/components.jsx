@@ -1497,6 +1497,7 @@ function DatePill({ date = '2026/12/31', active = true, onClick }) {
 //   'default'     — 一般按鈕（primary 色）
 //   'cancel'      — bold 強調（iOS 慣例置於最下）
 //   'destructive' — 紅色強調（iOS 慣例置於 default 之上）
+//   'preferred'   — 主要動作粗體
 //
 // 視覺：fixed overlay backdrop（半透明黑）+ 圓角白卡（surface） + 標題 + 訊息 + 分隔線 + 按鈕。
 // 按鈕排版：≤2 按鈕水平並排、3+ 按鈕垂直堆疊（對齊 iOS）。
@@ -1510,7 +1511,7 @@ function ConfirmDialog({ title, message, actions = [] }) {
       flex: 1, border: 'none', background: 'transparent',
       padding: D.BUTTON_PADDING, cursor: 'pointer', fontFamily: 'inherit',
       fontSize: D.BUTTON_TEXT_SIZE,
-      fontWeight: a.style === 'cancel' ? TYPOGRAPHY.weight.semibold : TYPOGRAPHY.weight.regular,
+      fontWeight: ['cancel', 'preferred'].includes(a.style) ? TYPOGRAPHY.weight.semibold : TYPOGRAPHY.weight.regular,
       color: a.style === 'destructive' ? TOKENS.error : TOKENS.p500,
     }}>{a.label}</button>
   );

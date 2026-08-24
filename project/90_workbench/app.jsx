@@ -252,6 +252,10 @@ const SCREEN_META = {
     title: '偏好設定', present: 'push', headerLeftText: '設定',
     render: () => <PreferenceScreen/>,
   },
+  'preference-usage-prompt': {
+    title: '偏好設定', present: 'push', headerLeftText: '設定',
+    render: () => <PreferenceScreen showUsageAnalyticsPrompt/>,
+  },
   // ─── Data Management ─── default
   'data-management': {
     title: '資料管理', present: 'push', headerLeftText: '設定',
@@ -512,9 +516,10 @@ const SCREEN_GROUPS = [
   {
     id: 'preference',
     title: 'Preference · 偏好設定',
-    subtitle: 'section hub（啟動 · 幣別 · 語言/時區/週起始日 · 財務分析/使用情況）。每 row value + chevron 鏡射 impl context 值（src/screens/Settings/PreferenceScreen.tsx）。主題切換為內部功能，不在此偏好流程。',
+    subtitle: 'section hub（啟動 · 幣別 · 語言/時區/週起始日 · 使用分析）。使用分析只顯示單列開關。首次啟動另顯示原生同意對話框。',
     screens: [
       { id: 'preference', label: 'Default · 偏好設定主頁' },
+      { id: 'preference-usage-prompt', label: 'Usage consent · 首次同意' },
     ],
   },
   {

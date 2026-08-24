@@ -10,7 +10,6 @@ const PREFERENCE_PREVIEW_VALUES = {
   language:     '繁體中文',
   timeZone:     'Taipei',
   weekStart:    '跟隨語系',
-  analyticsConsent: true,
   usageAnalyticsConsent: false,
 };
 
