@@ -7,7 +7,7 @@
 //   2. 離線重試頁品牌區（OfflineRetryScreen、104×96pt）
 // Home header 維持 $wish 文字標題（2026-07-07 使用者定案；曾試 logo、
 // 視覺不合退回。另 iOS 26 + Fabric 自訂 headerTitle 元件有上游 bug）。
-// 保持文字的地方：icon 下方 app 名、版權行、匯出檔名（見 BRAND.md App icon 節）。
+// 保持文字的地方：icon 下方 app 名、版權行、匯出檔名（見 brand.md App icon 節）。
 //
 // viewBox 緊裁 13.5 16.3 73 67.5（mark 外擴 stroke 半徑 + 1 padding）、
 // 幾何數字與資產產生器一致、勿目測改值。

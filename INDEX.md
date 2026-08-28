@@ -2,7 +2,7 @@
 
 這份 bundle 是 **演進中的設計庫**，不是歷史快照。設計會持續換口味、加新主題、淘汰舊方案，這份結構就是為了承載這種演進。本 repo 為設計標準的仲裁端，token 與元件決議寫在這裡，spec 與 impl 跟隨。
 
-> 入口：在瀏覽器開 `project/SuSuGiGi.html`，頂部 4 個 tab 切換各分頁。
+> 入口：在瀏覽器開 `project/susugigi.html`，頂部 4 個 tab 切換各分頁。
 >
 > 第一次打開請從 **Intro** 開始。本 repo 角色說明見 `CLAUDE.md` 與 `README.md`。
 
@@ -15,7 +15,7 @@
 | Tab | 它回答什麼問題 | 目錄 |
 |---|---|---|
 | Intro        | 「這份檔案是什麼？怎麼用？」 | `project/00_intro/` |
-| Foundations  | 「設計標準的零件——字、顏色、跨元件原語、元件 + 對應 token、品牌資產」。**5 個 group**：Atomic / Component Tokens / Components / Brand / Icon Library；group 與 leaf 清單以 `90_workbench/app.jsx` 的 `FOUNDATIONS_GROUPS` 為唯一真相。Components group 內分 List / Form / Navigation / Chart / Input 五個 family，每個 family 內元件 showcase 與對應 token 表緊鄰擺放。 | `project/10_foundations/` + `project/20_components/components-showcase.jsx` |
+| Foundations  | 「設計標準的零件——字、顏色、跨元件原語、元件 + 對應 token、品牌資產」。**5 個 group**：Atomic / Component Tokens / Components / Brand / Icon Library；group 與 leaf 清單以 `90_workbench/app.jsx` 的 `FOUNDATIONS_GROUPS` 為唯一真相。Components group 內分 List / Form / Navigation / Chart / Input 五個 family，每個 family 內元件 showcase 與對應 token 表緊鄰擺放。 | `project/10_foundations/` + `project/20_components/components_showcase.jsx` |
 | Screens      | 「每個畫面長什麼樣？空 / 載入 / 錯誤狀態？想鳥瞰用畫布縮放。」 | `project/30_screens/` |
 | Explorations | 「這個設計問題我想了好幾種做法」（並陳） | `project/50_explorations/` |
 
@@ -65,7 +65,7 @@ data model 與 logic 的仲裁端是 Spec git（不經 design）。跨層同步�
 
 ```
 project/
-├── SuSuGiGi.html                  主入口
+├── susugigi.html                  主入口
 ├── 00_intro/intro.jsx             Intro 分頁
 ├── 10_foundations/
 │   ├── no1-no6 atomic 檔          色彩 / canvas 快照 / 字體 / layout / 平台 / icon 集
@@ -74,15 +74,15 @@ project/
 ├── 15_fixtures/                   Mock 資料 + canvas helpers（不對齊 spec / impl）
 ├── 20_components/
 │   ├── components.jsx             元件實作（被 showcase 與 screens 共用）
-│   └── components-showcase.jsx    5 個家族 showcase（List / Form / Navigation / Chart / Input），
+│   └── components_showcase.jsx    5 個家族 showcase（List / Form / Navigation / Chart / Input），
 │                                  每個 family 內元件與對應 token 表緊鄰擺放，
 │                                  由 FoundationsComponentsSection 串在 Foundations > Components 子項內
 ├── 30_screens/                    26 個 noN_<name>_screen/ 子目錄 + shared/
 ├── 50_explorations/               各主題子目錄（清單以磁碟與 app.jsx 的 EXPLORATION_GROUPS 為準）
 ├── 90_workbench/
 │   ├── app.jsx                    ViewTabs router + SCREEN_META + ScreenFrame
-│   ├── design-canvas.jsx          DesignCanvas / DCSection / DCArtboard
-│   └── ios-frame.jsx              IOSDevice 邊框
+│   ├── design_canvas.jsx          DesignCanvas / DCSection / DCArtboard
+│   └── ios_frame.jsx              IOSDevice 邊框
 ├── assets/
 │   ├── logo.svg                   品牌 monogram
 │   └── wordmark.svg               logo + 文字 lockup
@@ -97,14 +97,14 @@ project/
 
 ### 新增一個正式畫面
 
-1. 在 `30_screens/` 新增 `noN_<name>_screen/` 子目錄（`tokens.jsx` + `noN_subsections.jsx` + entry `noN_<name>_screen.jsx`），並在 `SuSuGiGi.html` 加 script 載入
+1. 在 `30_screens/` 新增 `noN_<name>_screen/` 子目錄（`tokens.jsx` + `noN_subsections.jsx` + entry `noN_<name>_screen.jsx`），並在 `susugigi.html` 加 script 載入
 2. 在 `90_workbench/app.jsx` 的 `SCREEN_META` 加 meta，並在 `SCREEN_GROUPS` 加群組
 3. 仲裁完成後，spec 在 `no2_screens/noN_<name>_screen.md` 補規格，impl 在 `src/screens/<Name>/` 跟進實作
 
 ### 新增一個可重用元件
 
 1. 在 `20_components/components.jsx` 加實作
-2. 在 `20_components/components-showcase.jsx` 加 DCArtboard 展示
+2. 在 `20_components/components_showcase.jsx` 加 DCArtboard 展示
 3. 仲裁完成後，impl 在 `src/components/**` 跟進，引用該元件的 spec 在 `no2_screens/` 更新
 
 ### 新增一個探索主題
@@ -112,7 +112,7 @@ project/
 1. **複製任一現有主題目錄**，重命名為新主題 slug
 2. 敘述寫在 `variants.jsx` 頂部的 IntroBlock 元件（無需 README.md）
 3. 在 `90_workbench/app.jsx` 的 `EXPLORATION_GROUPS` 接 router
-4. 在 `SuSuGiGi.html` 加新 script 載入
+4. 在 `susugigi.html` 加新 script 載入
 
 Explorations 為純設計探索，**完全隔離不牽動 spec 與 impl**。
 

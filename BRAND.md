@@ -127,7 +127,7 @@ box-shadow:      0 4px 12px rgba(0,0,0,0.10);
 
 ### Layout rules
 
-- 行動 canvas：`402 × 874`（iPhone 16-class viewport）。`project/90_workbench/ios-frame.jsx` 是參考殼層，含 status bar、Dynamic Island、home indicator。
+- 行動 canvas：`402 × 874`（iPhone 16-class viewport）。`project/90_workbench/ios_frame.jsx` 是參考殼層，含 status bar、Dynamic Island、home indicator。
 - Safe-area top：`60px` padding-top 給 nav header。Bottom：`34px` 給 home indicator + `24px`（SPACING.xl）給 FAB inset。
 - 水平 padding：`16px`（SPACING.lg）在畫面邊緣、`16px` 在卡片內部。
 - Lists：卡片從畫面邊緣縮入 `SPACING.lg`（16px），依類別或日期分組。

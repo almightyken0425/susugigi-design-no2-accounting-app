@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────────────────────
 // Mock CATEGORIES · 設計稿視覺化用 seed
 //
-// 僅供 design canvas（screens / explorations / components-showcase）
+// 僅供 design canvas（screens / explorations / components_showcase）
 // 渲染示範用；impl 端使用真實 SQLite / Firestore 資料源，不消費此 mock。
 // ─────────────────────────────────────────────────────────────
 

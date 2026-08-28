@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────────────────────
 // Canvas helpers · pure function 資料轉換與格式化
 //
-// 給 screens / explorations / components-showcase 渲染示範用。
+// 給 screens / explorations / components_showcase 渲染示範用。
 // 所有 helpers 必須是 pure function，不引用 impl 業務邏輯。
 // ─────────────────────────────────────────────────────────────
 
