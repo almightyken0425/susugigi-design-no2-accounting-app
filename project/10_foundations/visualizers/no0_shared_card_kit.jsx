@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────────────────────
 // Shared card kit · 共用視覺化原語
 //
-// 給所有 visualizers 與 components-showcase 共用的卡片底層元件。
+// 給所有 visualizers 與 components_showcase 共用的卡片底層元件。
 // 此檔不定義任何 token；僅提供 layout 元件與 TokenTableCard 渲染器。
 // ─────────────────────────────────────────────────────────────
 

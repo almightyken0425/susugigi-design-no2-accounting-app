@@ -26,7 +26,7 @@ const HEADER_ICON_BUTTON_TOKENS = {
   MULTI_ICON_GAP:     SPACING.sm,                                          // 8，多 icon header 內 button 間距，與 SEARCH_BAR_TOKENS.ICON_GAP 對齊
   HIT_TARGET_EXPAND:  (HIT_TARGET.min - (TYPE_STYLES.body.size + SPACING.md * 2)) / 2, // 1.5，hitSlop 各方向外擴：視覺 41×41、可點 44×44 達 HIG。對齊 Apple UIBarButtonItem「視覺小、hit 大」慣例
   PRESS_ANIMATION: {
-    scale:    0.97,                       // (literal: 視覺校準值，對齊 BRAND.md universal button rule 與 iOS 系統 bar button tap 反饋；非 atomic 階梯項目)
+    scale:    0.97,                       // (literal: 視覺校準值，對齊 brand.md universal button rule 與 iOS 系統 bar button tap 反饋；非 atomic 階梯項目)
     duration: MOTION.duration.instant,    // 100，按壓回饋短促；阻尼結束視覺與 haptic 同步
     easing:   MOTION.easing.standard,
   },

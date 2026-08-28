@@ -58,7 +58,7 @@ function IntroSection() {
             <SectionLabel>Foundations · 5 個 group（清單以 app.jsx 的 FOUNDATIONS_GROUPS 為準）</SectionLabel>
             <AnatomyRow name="Atomic" desc="Type / Colors / Layout / Platform——字體、色彩主題、間距圓角動畫、平台固定值"/>
             <AnatomyRow name="Component Tokens" desc="元件級 token，一元件一檔（10_foundations/component_tokens/），與 visualizers 一對一"/>
-            <AnatomyRow name="Components" desc="由 components-showcase.jsx 引用 20_components/components.jsx 的元件展示。5 個 family（List / Form / Navigation / Chart / Input），每個 family 內元件與對應 token 表緊鄰擺放"/>
+            <AnatomyRow name="Components" desc="由 components_showcase.jsx 引用 20_components/components.jsx 的元件展示。5 個 family（List / Form / Navigation / Chart / Input），每個 family 內元件與對應 token 表緊鄰擺放"/>
             <AnatomyRow name="Brand" desc="品牌資產：UI glyphs / app icon / logo"/>
             <AnatomyRow name="Icon Library" desc="phosphor icon 全集檢索"/>
 
@@ -103,7 +103,7 @@ function IntroSection() {
               follow="跟進：spec 在 no3_product_specs/.../no2_screens/ 對應 md 補狀態；impl 跟著加 variant 實作"/>
             <FlowRow
               source="觸發：impl 新增整個畫面"
-              arbitrate="Design 仲裁：30_screens/ 新增 noN_<name>_screen/ 子目錄（tokens + subsections + entry）、SuSuGiGi.html 加載入、SCREEN_META 加 meta、SCREEN_GROUPS 加群組"
+              arbitrate="Design 仲裁：30_screens/ 新增 noN_<name>_screen/ 子目錄（tokens + subsections + entry）、susugigi.html 加載入、SCREEN_META 加 meta、SCREEN_GROUPS 加群組"
               follow="跟進：spec 新增 noN_<name>_screen.md；impl 完成 src/screens/<Name>/"/>
             <FlowRow
               source="觸發：想新增可重用元件"
@@ -142,7 +142,7 @@ function IntroSection() {
       <DCArtboard id="cross-git-sync" label="觸發-仲裁-跟進的流向" width={520} height={720}>
         <IntroCard>
           <IntroTag>跨 git 同步</IntroTag>
-          <IntroTitle>改 SuSuGiGi.html 時必走的下游清單</IntroTitle>
+          <IntroTitle>改 susugigi.html 時必走的下游清單</IntroTitle>
           <IntroBody>
             <p style={{ fontSize: 13, color: TOKENS.ink2, lineHeight: 1.6, marginBottom: 12 }}>
               觸發可雙向，但決議都寫進 Design git。下表列出在 Design 仲裁完成後，哪些下游檔案需要跟進。權威來源以 <code>~/.claude/skills/decision_framework_router/products_registry.md</code> 的 sub_mapping 為準，本表為人類閱讀方便的 mirror。
@@ -187,7 +187,7 @@ function IntroSection() {
           <IntroTitle>數字前綴 = 顯示順序 = 概念順序</IntroTitle>
           <IntroBody>
             <pre style={fileTreeStyle}>{`project/
-├── SuSuGiGi.html                  主入口
+├── susugigi.html                  主入口
 ├── 00_intro/intro.jsx             這個分頁的內容
 ├── 10_foundations/                設計標準權威
 │   ├── no1_atomic_tokens.jsx      PALETTE / THEMES / GLASS_BASE / SHADOW_ELEVATION / SCRIM_LEVELS
@@ -204,13 +204,13 @@ function IntroSection() {
 │   └── no1-no4                    categories / accounts / transactions / helpers
 ├── 20_components/
 │   ├── components.jsx             元件實作
-│   └── components-showcase.jsx    Foundations · Components group 的 Section 內容
+│   └── components_showcase.jsx    Foundations · Components group 的 Section 內容
 ├── 30_screens/                    26 個 noN_<name>_screen/ 子目錄 + shared/
 ├── 50_explorations/               各主題子目錄（清單以磁碟與 app.jsx 的 EXPLORATION_GROUPS 為準）
 ├── 90_workbench/
 │   ├── app.jsx                    ViewTabs router + SCREEN_META + ScreenFrame + SideTOC（三層）
-│   ├── design-canvas.jsx          DesignCanvas / DCSection / DCArtboard
-│   └── ios-frame.jsx              IOSDevice 邊框
+│   ├── design_canvas.jsx          DesignCanvas / DCSection / DCArtboard
+│   └── ios_frame.jsx              IOSDevice 邊框
 └── 99_deprecated/                 已淘汰`}</pre>
             <p style={{ fontSize: 13, color: TOKENS.ink2, lineHeight: 1.6, marginTop: 12 }}>
               數字前綴 <code>00 / 10 / 20 / 30 / 50 / 90 / 99</code> 保證檔案系統內的顯示順序與概念順序一致。新增分頁挑空著的 10 倍數段落即可（40 / 60 / 70 / 80 目前空著）。

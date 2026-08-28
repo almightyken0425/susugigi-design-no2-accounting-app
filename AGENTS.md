@@ -17,13 +17,23 @@
 
 ## Canvas 結構
 
-- 入口是 `project/SuSuGiGi.html`。
+- 入口是 `project/susugigi.html`。
 - Router 位於 `90_workbench/app.jsx`。
 - 頂層分頁由 Router 仲裁。
 - Foundations 清單以 Router 為準。
 - Screens 清單以 Router 為準。
 - Explorations 清單以 Router 為準。
 - Components 屬於 Foundations。
+
+## 命名規則
+
+- remote repo 使用 `susugigi-design-no2-accounting-app`。
+- 入口檔使用產品 slug `project/susugigi.html`。
+- Design stage 目錄固定使用兩位數 `NN_lowercase_snake_case`。
+- stage 內目錄與檔案使用 `lowercase_snake_case`。
+- 有順序的工件使用 `noN_lowercase_snake_case`，序號不補零。
+- React export 與瀏覽器全域識別字保留程式碼慣例。
+- `AGENTS.md`、`CLAUDE.md`、`README.md` 與 `SKILL.md` 保留平台約定名稱。
 
 ## 動工路由
 

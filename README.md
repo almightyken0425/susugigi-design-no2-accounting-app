@@ -13,11 +13,11 @@
 
 ## 入口
 
-在瀏覽器開 `project/SuSuGiGi.html`，**4 個頂層 tab** 切換各視角：Intro / Foundations / Screens / Explorations。
+在瀏覽器開 `project/susugigi.html`，**4 個頂層 tab** 切換各視角：Intro / Foundations / Screens / Explorations。
 
 Components 不是頂層 tab，已併入 Foundations 作為 sub-item。
 
-詳細結構說明見 `INDEX.md`。
+詳細結構說明見 `index.md`。
 
 ## 仲裁模型
 

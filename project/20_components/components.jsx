@@ -853,7 +853,7 @@ function HeaderButtonPill({ symbols = [], intent = 'action', color, customViewSi
       ))}
     </div>
   );
-  // 無 onPress 時直接渲染 pill（保留既有 components-showcase 等 caller 行為）；
+  // 無 onPress 時直接渲染 pill（保留既有 components_showcase 等 caller 行為）；
   // 有 onPress 時自動 wrap button 以利 SCREEN_META 等真實互動使用。
   if (!onPress) return pill;
   return (
@@ -920,7 +920,7 @@ function MockNavBar({ leftSlot, title, rightSlot }) {
 
 // ─── HeaderMockFrame ─── design canvas mock 容器，無 impl 對應元件
 // 「裁出 header 那一條」的虛擬容器：頂部 IOSStatusBar（reuse 自 90_workbench/
-// ios-frame.jsx）+ children (nav bar) + 下方 content tail（mock list row，
+// ios_frame.jsx）+ children (nav bar) + 下方 content tail（mock list row，
 // 讓 Liquid Glass pill 的 backdrop-filter blur 看得出穿透）。
 // 無 device frame 外框、無 dynamic island、無 home indicator；聚焦 header。
 function HeaderMockFrame({ children, contentTail }) {

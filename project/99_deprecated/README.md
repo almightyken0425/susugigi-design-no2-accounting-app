@@ -1,10 +1,10 @@
 # Deprecated
 
-這裡放完全棄用、但保留歷史紀錄的檔案。**不被 `SuSuGiGi.html` 載入**——也就是說 prototype 跑起來不會用到這些檔案。
+這裡放完全棄用、但保留歷史紀錄的檔案。**不被 `susugigi.html` 載入**——也就是說 prototype 跑起來不會用到這些檔案。
 
 ## 目前內容
 
-- `tweaks-panel.jsx` — 早期參數調整面板，被 ViewTabs + DesignCanvas 取代。保留作為設計演進的歷史素材。
+- `tweaks_panel.jsx` — 早期參數調整面板，被 ViewTabs + DesignCanvas 取代。保留作為設計演進的歷史素材。
 
 ## 取捨原則
 
