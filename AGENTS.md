@@ -37,9 +37,9 @@
 
 ## 動工路由
 
-- 修改前使用 `decision_framework_router`。
-- Markdown 必須使用 `universal_writing_linter`。
-- 設計工件不套用 `spec_writer`。
+- 修改前使用 `product-scope`。
+- Markdown 必須使用 `doc-markdown`。
+- 設計工件不套用 `code-spec`。
 - 預覽前遵守 launch registry。
 - 不主動啟動 Metro 或 simulator。
 
