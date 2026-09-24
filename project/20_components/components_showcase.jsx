@@ -473,7 +473,7 @@ function ComponentsNavigationSection() {
             <HeaderMockFrame>
               <MockNavBar
                 leftSlot={<HeaderButtonPill symbols={["line.3.horizontal.decrease"]} intent="action"/>}
-                title="$wish"
+                title="Swish"
                 rightSlot={<HeaderButtonPill symbols={["magnifyingglass", "gearshape"]} intent="action"/>}
               />
             </HeaderMockFrame>
