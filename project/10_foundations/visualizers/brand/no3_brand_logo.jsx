@@ -5,7 +5,7 @@
 // 只剩三條微弧與條內漸層，透明底。用在 app 內品牌出現點：
 //   1. Launch screen（iOS storyboard imageView、LaunchLogo imageset）
 //   2. 離線重試頁品牌區（OfflineRetryScreen、104×96pt）
-// Home header 維持 $wish 文字標題（2026-07-07 使用者定案；曾試 logo、
+// Home header 維持 Swish 文字標題（2026-07-07 使用者定案；曾試 logo、
 // 視覺不合退回。另 iOS 26 + Fabric 自訂 headerTitle 元件有上游 bug）。
 // 保持文字的地方：icon 下方 app 名、版權行、匯出檔名（見 brand.md App icon 節）。
 //
@@ -48,7 +48,7 @@ function FoundationsBrandLogoSection() {
   return (
     <DCSection id="foundations-brand-logo"
       title="Brand · Brand Logo（無底三線）"
-      subtitle="App icon 定案 G4 的 mark-only 版、透明底。app 內兩個品牌出現點：launch screen、登入頁。home header 維持 $wish 文字（定案見檔頭註記）。仲裁端：本檔 BRAND_LOGO 常數；跟進端：impl assets/images/brand 與 LaunchLogo imageset。">
+      subtitle="App icon 定案 G4 的 mark-only 版、透明底。app 內兩個品牌出現點：launch screen、登入頁。home header 維持 Swish 文字（定案見檔頭註記）。仲裁端：本檔 BRAND_LOGO 常數；跟進端：impl assets/images/brand 與 LaunchLogo imageset。">
       <DCArtboard id="brand-logo-usage" label="兩個使用點 · 尺寸對照" width={560} height={300}>
         <div style={{ width: '100%', height: '100%', background: '#FFFFFF', padding: 18, display: 'flex', gap: 28, alignItems: 'flex-end', fontFamily: '-apple-system, "PingFang TC", sans-serif' }}>
           {[[96, '登入頁 104×96pt'], [56, 'launch 140×129pt 縮樣']].map(([h, label]) => (

@@ -79,7 +79,7 @@ function RetryFooter() {
       <span style={{
         fontSize: T.FOOTER_FONT_SIZE,
         color: TOKENS.ink2,
-      }}>© 2026 $wish. All rights reserved.</span>
+      }}>© 2026 Swish. All rights reserved.</span>
     </div>
   );
 }
