@@ -187,7 +187,7 @@ function ImportStep4Preview() {
           <DataListItem title="共匯入" value="124"/>
           <DataListItem title="新增帳戶" value="1"/>
           <DataListItem title="新增類別" value="1"/>
-          <DataListItem title="略過重複" value="8"/>
+          <DataListItem title="將略過紀錄數" value="8"/>
         </ListGroupCard>
       </ListSection>
     </div>
